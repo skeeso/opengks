@@ -77,3 +77,4 @@ echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
 shutdown -r now
 #service lightdm restart
 exit 0
+
