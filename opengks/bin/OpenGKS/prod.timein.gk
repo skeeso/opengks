@@ -1,0 +1,85 @@
+# $Id: prod.timein.gk,v 1.1 2013/07/29 07:29:48 root Exp root $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.timein.gk,v $
+# DESC: OpenGKS - PROD.TIMEIN.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+NARGS=1
+BARGS=65
+REFID="$2"
+
+case $1 in
+
+        # TIMEIN MODULE PARAMETER FOR ENTRY
+        --entry-refid | --ENTRY-REFID)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - TIMEIN MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: READER = $DEFINE_READER\n";
+			# UPDATE THE EXISTING RECORD
+			printf "[*] Updating record status from exit to entry...\n";
+			$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+				"UPDATE login SET ststat = '1', sttime = '`date`' WHERE rstnum = '$REFID' OR refnum = '$REFID';"
+			$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+                                "INSERT INTO entry (refid, stname, stlevel, sttime) VALUES ('$REFID', '$REFNME', '$STLEVL', '`date`');"
+			printf "[*] Done.\n";
+                printf "\n";
+        exit 0
+        ;;
+
+        # TIMEIN MODULE PARAMETER FOR EXIT
+        --exit-refid | --EXIT-REFID)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - TIMEIN MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $DEFINE_READER\n";
+			# UPDATE THE EXISTING RECORD
+			printf "[*] Updating record status from entry to exit...\n";
+			$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+				"UPDATE login SET ststat = '0', sttime = '`date`' WHERE rstnum = '$REFID' OR refnum = '$REFID';"
+			$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+                                "INSERT INTO egress (refid, stname, stlevel, sttime) VALUES ('$REFID', '$REFNME', '$STLEVL', '`date`');"
+			printf "[*] Done.\n";
+                printf "\n";
+        exit 0
+        ;;
+
+        # TIMEIN MODULE PARAMETER FOR SHOWREF
+        --error-refid | --error-REFID)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - TIMEIN MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $DEFINE_READER\n";
+                        # SHOW THE EXISTING RECORD
+                        printf "[*] Reporting transaction error...\n";
+                        $USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+                                "INSERT INTO error (refid, stname, stlevel, sttime) VALUES ('$REFID', '$REFNME', '$STLEVL', '`date`');"
+                        printf "[*] Done.\n";
+                printf "\n";
+        exit 0
+        ;;
+
+        # TIMEIN MODULE PARAMETER FOR SHOWREF
+        --show-refid | --SHOW-REFID)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - TIMEIN MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $DEFINE_READER\n";
+                        # SHOW THE EXISTING RECORD
+			printf "[*] Showing requested record...\n";
+                        $USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+				"SELECT * FROM login WHERE rstnum = '$REFID' OR refnum = '$REFID';"
+			printf "[*] Done.\n";
+                printf "\n";
+        exit 0
+        ;;
+
+
+        *)
+        printf "\033[1mOpenGKS: - TIMEIN MODULE - `date` \033[0m\n";
+        printf "USAGE: $0 --entry-refid \"{REFERENCE_NUMBER}\"\n";
+        printf "SAMPLE: $0 --entry-refid \"2013123234AF\"\n";
+        printf "WHERE:\n";
+        printf "\033[1m --show-refid\033[0m		- Show record for the reference number.\n";
+        printf "\033[1m --entry-refid\033[0m		- Tag that the person has arrived.\n";
+        printf "\033[1m --exit-refid\033[0m		- Tag that the person is leaving.\n";
+	printf "\033[1m --error-refid\033[0m            - Record tagged authentication errors.\n";
+        printf "\033[1m {REFERENCE_NUMBER}\033[0m	- A unique employee/student number or RFID tag.\n\n";
+esac
+exit 0
+

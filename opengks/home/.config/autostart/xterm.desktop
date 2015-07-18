@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Type=Application
+Exec=urxvt -g 120x25+0+0 -tr -title "OpenGKS Started" -hold -e bash -c "sudo control"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=false
+Name[en_PH]=OPENGKS
+Name=OPENGKS AUTOSTART
+Comment[en_PH]=
+Comment=

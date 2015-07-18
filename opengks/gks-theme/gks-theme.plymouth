@@ -1,0 +1,10 @@
+[Plymouth Theme]
+Name=OpenGKS Theme
+Description=OS X like boot splash
+ModuleName=script
+
+[script]
+ImageDir=/lib/plymouth/themes/gks-theme
+ScriptFile=/lib/plymouth/themes/gks-theme/gks-theme.script
+
+

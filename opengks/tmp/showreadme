@@ -1,0 +1,113 @@
+#!/bin/bash
+# $Id: prod.control.gk,v 1.2 2013/08/21 11:54:40 root Exp $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.control.gk,v $
+# DESC: OPENGKS - PROD.OPEN.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+DIALOG=${DIALOG=dialog}
+BTITLE="OpenGKS v1.0"
+EXIST_FILE=/root/.mysql.ok
+
+# CHECK FOR EXIST FILE
+if [[ ! -f "$EXIST_FILE" ]]; then
+	$DIALOG --backtitle "$BTITLE" --title "MySQL configuration" --clear --yesno \
+	"\nHello and welcome to OpenGKS. I've noticed that your database was not yet configured, as this is probably a new installation. Would you like to configure the database?" 9 70
+
+	case $? in
+		0)
+		tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+		trap "rm -f $tempfile" 0 1 2 5 15
+		$DIALOG --backtitle "$BTITLE" --title "MySQL root password change" --clear --insecure --passwordbox \
+		"\nThe default MySQL installation doesn't have a password for the root user. Enter the password that will be used for the MySQL root user:\n" 12 70 2> $tempfile
+		retval=$?
+
+			case $retval in
+				0)
+				/usr/bin/mysqladmin -u "root" password "`cat $tempfile`"
+				/bin/bash /etc/OpenGKS/bin/createdb "opengks" "opengks" "gksadmin" "`cat $tempfile`"
+				/usr/bin/mysql --user=root --password="`cat $tempfile`" --database=opengks < /etc/OpenGKS/bin/opengks.sql	
+				$DIALOG --backtitle "$BTITLE" --title "Completed" --msgbox "\nThe MySQL root password was set successfully." 8 70
+				$DIALOG --backtitle "$BTITLE" --title "MySQL user password change" --clear --yesno \
+				"\nThe opengks database user is currently set to its default value. If you have not done so, would you like to change the password for the opengks database user?" 9 70
+
+					case $? in
+						0)
+						tempfile2=`tempfile 2>/dev/null` || tempfile2=/tmp/test$$
+						trap "rm -f $tempfile2" 0 1 2 5 15
+						$DIALOG --backtitle "$BTITLE" --title "MySQL user password change" --clear --insecure --passwordbox \
+						"\nEnter the password that will be used for the MySQL opengks user:\n" 9 70 2> $tempfile2
+						retval=$?
+							
+							case $retval in
+								0)
+								/usr/bin/mysqladmin -u "opengks" -p password "`cat $tempfile2`"
+								sed -i "s/gksadmin/`cat $tempfile2`/g" /var/www/OpenGKS/tools/dbc.php 
+								touch $EXIST_FILE
+								$DIALOG --backtitle "$BTITLE" --title "Completed" --msgbox "\nThe MySQL opengks password was set successfully." 8 70
+								clear
+								exit 0
+								;;
+								1)
+								 clear
+								 echo "Exiting."
+								;;
+								255)
+								 clear
+								 echo "Exiting."
+								;;
+							esac
+						;;
+						1)
+						 clear
+						 echo "Exiting."
+						;;
+						255)
+						 clear
+						 echo "Exiting."
+						;;
+					esac 
+				;;
+				1)
+				 clear
+				 echo "Exiting."
+				;;
+				255)
+				 clear
+				 echo "Exiting."
+				;;
+			esac
+		;;
+  		1)
+    		 clear
+    		 echo "Exiting."
+		;;
+  		255)
+    		clear
+		;;
+esac
+	else
+		tempfile3=`tempfile 2>/dev/null` || tempfile3=/tmp/test$$
+		trap "rm -f $tempfile3" 0 1 2 5 15
+		$DIALOG --backtitle "$BTITLE" --title "Welcome to OpenGKS" --clear \
+        	--menu "\nOpenGKS is an Open-Source Gate Keeper Solution. This project aims to be an alternative solution for schools that wants to deploy a complete RFID/SMS system for students and employees.\n" 15 70 4 \
+        		"ABOUT"  "Get to know OpenGKS" \
+        		"README" "Installation and Configuration" \
+        		"LICENSES" "License Information" \
+        		"HELP" "Post-configuration Documents" 2> $tempfile3
+
+		retval=$?
+		choice=`cat $tempfile3`
+
+		case $retval in
+			0)
+			 echo "'$choice'"
+			;;
+			1)
+			 echo "Cancel pressed."
+			;;
+			255)
+			 echo "ESC pressed."
+			;;
+		esac
+fi
+exit 0

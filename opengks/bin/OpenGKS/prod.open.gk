@@ -1,0 +1,203 @@
+# $Id: prod.open.gk,v 1.4 2013/08/31 11:35:11 root Exp $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.open.gk,v $
+# DESC: OPENGKS - PROD.OPEN.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+# LOAD ENVIRONMENT VARIABLES
+source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+
+NARGS=1
+BARGS=65
+READID="$1"
+
+for i in $READID
+{
+	export RSTNUM="`lynx -dump \"$USE_GETURL?&refid=$i&query=rstnum\" | sed '/./!d' | awk '{print$1}'`"
+	export REFNUM="`lynx -dump \"$USE_GETURL?&refid=$i&query=refnum\" | sed '/./!d' | awk '{print$1}'`"
+	export REFNME="`lynx -dump \"$USE_GETURL?&refid=$i&query=stname\" | sed '/./!d' | sed 's/^[ \t]*//;s/[ \t]*$//'`"
+	export STMAIL="`lynx -dump \"$USE_GETURL?&refid=$i&query=stmail\" | sed '/./!d' | awk '{print$1}'`"
+	export STSTAT="`lynx -dump \"$USE_GETURL?&refid=$i&query=ststat\" | sed '/./!d' | awk '{print$1}'`"
+	export RXSTAT="`lynx -dump \"$USE_GETURL?&refid=$i&query=rxstat\" | sed '/./!d' | awk '{print$1}'`"
+	export MOBILE="`lynx -dump \"$USE_GETURL?&refid=$i&query=stmobile\" | sed '/./!d' | awk '{print$1}'`"
+	export STLEVL="`lynx -dump \"$USE_GETURL?&refid=$i&query=stlevel\" | sed '/./!d' | awk '{print$1}'`"
+	export ONHOLD="`lynx -dump \"$USE_GETURL?&refid=$i&query=onhold\" | sed '/./!d' | awk '{print$1}'`"
+}
+
+function onevent_exit(){
+        if [[ "$USE_SENDSMSVIA" == "1" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-gsm-modem "$MOBILE" "$REFNME LEFT SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "2" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-clickatell "$MOBILE" "$REFNME LEFT SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "3" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-textity "$MOBILE" "$REFNME LEFT SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "0" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+	printf "[*] Testmode enabled. Showing data...\n";
+      elif [[ "$USE_SENDSMSVIA" == "4" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        printf "[*] Testmode enabled. Showing data...\n";
+        echo "[*] $RSTNUM"
+        echo "[*] $REFNUM"
+        echo "[*] $REFNME"
+        echo "[*] $STMAIL"
+        echo "[*] $STSTAT"
+        echo "[*] $RXSTAT"
+        echo "[*] $MOBILE"
+        echo "[*] $STLEVL"
+        echo "[*] $ONHOLD"
+        printf "[*] SMS notification is disabled.\n\n";
+      else
+        printf "";
+        fi
+}
+
+function onevent_entry(){
+        if [[ "$USE_SENDSMSVIA" == "1" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-gsm-modem "$MOBILE" "$REFNME ARRIVED SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "2" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-clickatell "$MOBILE" "$REFNME ARRIVED SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "3" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-textity "$MOBILE" "$REFNME ARRIVED SCHOOL on `date`"
+      elif [[ "$USE_SENDSMSVIA" == "0" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        printf "[*] Testmode enabled. Showing data...\n";
+      elif [[ "$USE_SENDSMSVIA" == "4" ]] && \
+                   [[ "$RXSTAT" == "0" ]]; then
+        printf "[*] Testmode enabled. Showing data...\n";
+        echo "[*] $RSTNUM"
+        echo "[*] $REFNUM"
+        echo "[*] $REFNME"
+        echo "[*] $STMAIL"
+        echo "[*] $STSTAT"
+        echo "[*] $RXSTAT"
+        echo "[*] $MOBILE"
+        echo "[*] $STLEVL"
+        echo "[*] $ONHOLD"
+        printf "[*] SMS notification is disabled.\n\n";
+      else
+        printf "";
+        fi
+}
+
+	printf "\033[1mOpenGKS: - MAIN PROCESS - `date`\033[0m\n\n";
+	# CHECK VALIDITY OF PRESENTED READID
+	if [[ "$READID" == "$RSTNUM" ]] || \
+	   [[ "$READID" == "$REFNUM" ]] && \
+	   [[ "$ONHOLD" == "0" ]]; then
+		printf "[*] $READID is found. Presenting as $RSTNUM / $REFNUM.\n";
+		
+		# CHECK THE ENTRY AND EXIT STATUS
+		if [[ "$STSTAT" == "0" ]]; then
+			printf "[*] $READID status is zero (0).\n\n";
+			$USE_BINPATH/prod.timein.gk --entry-refid "$READID"
+
+			# GENERATE THE WINDOW AND SHOW THE USER RECORD
+			export MAIN_DIALOG='<window><vbox><hbox><frame OPENGK v1.0>
+			<pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+			<input file>'"$USE_IMGPATH/asset/default-logo.png"'</input><sensitive>state</sensitive></pixmap>
+			<pixmap tag_attr="value"><variable>varname</variable><height>200</height><width>200</width>
+			<input file>'"$USE_PHTPATH/$READID.jpg"'</input><sensitive>state</sensitive></pixmap>
+			<pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+			<input file>'"$USE_IMGPATH/asset/default-in.png"'</input><sensitive>state</sensitive></pixmap>
+			<text><label>REFERENCE ID</label></text><text><label>'"$READID"'</label></text></frame>
+			<frame '"$REFNME - `date` - IN"'>
+			<pixmap tag_attr="value"><variable>varname</variable><height>500</height><width>500</width>
+			<input file>'"$USE_PHTPATH/$READID.jpg"'</input><sensitive>state</sensitive></pixmap></frame>
+			</hbox></vbox></window>'
+
+			$USE_GTKBINR --program=MAIN_DIALOG --center & > $USE_LOGPATH/$$
+			onevent_entry;sleep "$DEFINE_SHOW_WINDOW"
+				if [[ "$USE_SMTPNOTIFY" == "1" ]]; then
+					$USE_BINPATH/prod.mailer.gk --send-entry-notice "$STMAIL" "$REFNME ARRIVED SCHOOL on `date`"
+				else
+					printf "[*] SMTP notification is disabled.\n";
+				fi
+			kill -9 `ps -ef | grep "gtkdialog" | head -1 | awk '{print$2}'`
+
+	      elif [[ "$STSTAT" == "1" ]]; then
+			printf "[*] $READID status is one (1).\n\n";
+			$USE_BINPATH/prod.timein.gk --exit-refid "$READID"
+
+                        # GENERATE THE WINDOW AND SHOW THE USER RECORD
+                        export MAIN_DIALOG='<window><vbox><hbox><frame OPENGK v1.0>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-logo.png"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>200</height><width>200</width>
+                        <input file>'"$USE_PHTPATH/$READID.jpg"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-out.png"'</input><sensitive>state</sensitive></pixmap>
+                        <text><label>REFERENCE ID</label></text><text><label>'"$READID"'</label></text></frame>
+                        <frame '"$REFNME - `date` - OUT"'>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>500</height><width>500</width>
+                        <input file>'"$USE_PHTPATH/$READID.jpg"'</input><sensitive>state</sensitive></pixmap></frame>
+                        </hbox></vbox></window>'
+
+                        $USE_GTKBINR --program=MAIN_DIALOG --center & > $USE_LOGPATH/$$
+                        onevent_exit;sleep "$DEFINE_SHOW_WINDOW"
+				if [[ "$USE_SMTPNOTIFY" == "1" ]]; then
+                                        $USE_BINPATH/prod.mailer.gk --send-exit-notice "$STMAIL" "$REFNME LEFT SCHOOL on `date`"
+                                else
+                                        printf "[*] SMTP notification is disabled.\n";
+                                fi
+			kill -9 `ps -ef | grep "gtkdialog" | head -1 | awk '{print$2}'`
+
+	      else
+			printf "[*] $READID found but cannot determine status.\n[*] Please contact your administrator.\n\n";
+			$USE_BINPATH/prod.timein.gk --error-refid "$READID"
+
+			# GENERATE THE WINDOW AND SHOW THE USER RECORD
+                        export MAIN_DIALOG='<window><vbox><hbox><frame OPENGK v1.0>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-logo.png"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>200</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-white.png"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-black.png"'</input><sensitive>state</sensitive></pixmap>
+                        <text><label>REFERENCE ID</label></text><text><label>'"$READID"'</label></text></frame>
+                        <frame '"$REFNME - `date`"'>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>500</height><width>500</width>
+                        <input file>'"$USE_IMGPATH/asset/default-ureg.png"'</input><sensitive>state</sensitive></pixmap></frame>
+                        </hbox></vbox></window>'
+
+                        $USE_GTKBINR --program=MAIN_DIALOG --center & > $USE_LOGPATH/$$
+                        sleep "10"
+			$USE_BINPATH/prod.mailer.gk --send-entry-notice "$DEFINE_SMTP_RCPT" "LOGIN VIOLATION FOR $READID / $REFNME - UNREGISTERED REFID WAS TAGGED"
+                        kill -9 `ps -ef | grep "gtkdialog" | head -1 | awk '{print$2}'`
+
+		fi
+      elif [[ "$READID" == "$RSTNUM" ]] || \
+	   [[ "$READID" == "$REFNUM" ]] && \
+	   [[ "$ONHOLD" == "1" ]]; then
+		printf "[*] $READID is found but RESTRICTED. ONHOLD != 0.\n[*] Please contact your administrator.\n\n";
+		$USE_BINPATH/prod.timein.gk --error-refid "$READID"
+                        
+			# GENERATE THE WINDOW AND SHOW THE USER RECORD
+                        export MAIN_DIALOG='<window><vbox><hbox><frame OPENGK v1.0>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-logo.png"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>200</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-white.png"'</input><sensitive>state</sensitive></pixmap>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>100</height><width>200</width>
+                        <input file>'"$USE_IMGPATH/asset/default-black.png"'</input><sensitive>state</sensitive></pixmap>
+                        <text><label>REFERENCE ID</label></text><text><label>'"$READID"'</label></text></frame>
+                        <frame '"$REFNME - `date`"'>
+                        <pixmap tag_attr="value"><variable>varname</variable><height>500</height><width>500</width>
+                        <input file>'"$USE_IMGPATH/asset/default-rest.png"'</input><sensitive>state</sensitive></pixmap></frame>
+                        </hbox></vbox></window>'
+
+                        $USE_GTKBINR --program=MAIN_DIALOG --center & > $USE_LOGPATH/$$
+                        sleep "10"
+			$USE_BINPATH/prod.mailer.gk --send-entry-notice "$DEFINE_SMTP_RCPT" "LOGIN VIOLATION FOR $READID / $REFNME - RESTRICTED REFID WAS TAGGED"
+                        kill -9 `ps -ef | grep "gtkdialog" | head -1 | awk '{print$2}'`
+
+	else
+		printf "[*] Waiting for activity... ";
+	fi
+
+exit 0

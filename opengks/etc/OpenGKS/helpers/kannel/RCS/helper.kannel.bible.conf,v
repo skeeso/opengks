@@ -1,0 +1,472 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2013.09.17.18.06.40;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@group = sms-service
+keyword = Genesis
+aliases = gen
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Exodus
+aliases = ex
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Leviticus
+aliases = lev
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Numbers
+aliases = num
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Deuteronomy
+aliases = deut 
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Joshua
+aliases = josh
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Judges
+aliases = judg
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Ruth
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Samuel
+aliases = 1sam
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Samuel
+aliases = 2sam
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Kings
+aliases = 1ki
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Kings
+aliases = 2ki
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Chronicles
+aliases = 1chr
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Chronicles
+aliases = 2chr
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Ezra
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Nehemiah
+aliases = neh
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Esther
+aliases = esth
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Job
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Psalms
+aliases = psalm;ps
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Proverbs
+aliases = prov
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Ecclesiastes
+aliases = eccl;ecc
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Songs
+aliases = song
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Isaiah
+aliases = isa
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Jeremiah
+aliases = jer
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Lamentations
+aliases = lam
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Ezekiel
+aliases = ezek
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Daniel
+aliases = dan
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Hosea
+aliases = hos
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Joel
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Amos
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Obadiah
+aliases = obad
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Jonah
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Micah
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Nahum
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Habakkuk
+aliases = hab
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Zephaniah
+aliases = zeph
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Haggai
+aliases = hag
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Zechariah
+aliases = zech
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Malachi
+aliases = mal
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Matthew
+aliases = matt
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Mark
+aliases = mrk
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Luke
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = John
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Acts
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Romans
+aliases = rom
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Corinthians
+aliases = 1cor
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Corinthians
+aliases = 2cor
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Galatians
+aliases = gal
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Ephesians
+aliases = eph
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Philippians
+aliases = php
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Colossians
+aliases = col
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Thessalonians
+aliases = 1th
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Thessalonians
+aliases = 2th
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Timothy
+aliases = 1tim
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Timothy
+aliases = 2tim
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Titus
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Philemon
+aliases = phm
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Hebrews
+aliases = heb
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = James
+aliases = jam
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1Peter
+aliases = 1pet
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2Peter
+aliases = 2pet
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 1John
+aliases = 1jn
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 2John
+aliases = 2jn
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = 3John
+aliases = 3jn
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Jude
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+group = sms-service
+keyword = Revelation
+aliases = rev
+exec = "/bin/bash /etc/OpenGKS/helpers/kannel/helper.sms.bib '%k' '%s' '%p' '%P' '%t'"
+max-messages = 3
+concatenation = true
+
+@

@@ -1,0 +1,38 @@
+#!/bin/bash
+# $Id: prod.control.gk,v 1.2 2013/08/21 11:54:40 root Exp $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.control.gk,v $
+# DESC: OPENGKS - PROD.OPEN.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+# LOAD ENVIRONMENT VARIABLES
+source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+
+if [[ ! -d "$USE_LOGPATH" ]]; then
+        mkdir -p $USE_LOGPATH
+fi
+
+echo "|O] OpenGKS Control Process Started ...";
+echo "[X] INET ADDR: `ifconfig -a | grep "inet addr" | cut -d: -f2 | awk '{print$1}' | xargs`";
+echo "---------------------------------------";
+
+	if [[ $DEFINE_READER == "webcam" ]]; then
+		printf "[*] Zbarcam waiting for input...\n";
+		if [[ $DEFINE_SHOW_CAM == "0" ]]; then
+			zbarcam --raw --nodisplay $DEFINE_READER_DEVID | crikey -i > $USE_LOGPATH/refcodes.txt &
+	      elif [[ $DEFINE_SHOW_CAM == "1" ]]; then	
+			zbarcam --raw --prescale=320x240 $DEFINE_READER_DEVID | crikey -i > $USE_LOGPATH/refcodes.txt &
+		else
+			printf "[*] Cannot determine DEFINE_READER_DEVID = $DEFINE_READER_DEVID.\n";
+			exit 0
+		fi	
+      elif [[ $DEFINE_READER == "rfid" ]]; then
+		printf "[*] Rfid waiting for input...\n";
+		cat $DEFINE_READER_DEVID | /usr/local/bin/crikey -itxr > $USE_LOGPATH/refcodes.txt &
+      else
+		printf "[*] I cannot continue. No valid reader was detected.\n";
+	fi
+
+	while read LINE; do /bin/bash /usr/local/bin/OpenGKS/prod.open.gk "$LINE";
+	# >/dev/null 2>&1;
+done
+exit 0

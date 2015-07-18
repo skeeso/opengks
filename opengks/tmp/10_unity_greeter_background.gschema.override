@@ -1,0 +1,3 @@
+[com.canonical.unity-greeter]
+draw-user-backgrounds=false
+background='/usr/share/backgrounds/drustan_nebula_by_casperium.jpg'

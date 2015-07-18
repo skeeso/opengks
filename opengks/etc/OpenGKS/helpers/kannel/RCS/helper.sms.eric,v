@@ -1,0 +1,91 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2013.09.22.22.00.54;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/bash
+# $Id$
+# $Source$
+# DESC: HELPER - HELPER.SMS.ERIC
+# AUTHOR: Eric Fajardo / eric@@arpa.ph
+
+# LOAD ENVIRONMENT VARIABLES
+source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+
+# PARAMETERS
+KEY1="$1"         # PRIMARY KEY
+KEY2="$2"         # SECONDARY KEY
+MSGS="$3"         # MESSAGE
+SNDR="$4"         # SENDER
+RCPT="$5"         # RECIPIENT
+STMP="$6"         # MSGSTAMP
+
+FAIL="The keyword you have specified is invalid. you may try fjpf[SPACE]send[SPACE]your@@email.com Example: fjpf send recruitment@@work.com"
+ITUN=`echo "$SNDR" | sed 's/^.*\(............\)$/\1/'`
+for i in $ITUN
+
+function onevent_getrequest(){
+        if [[ "$USE_SENDSMSVIA" == "1" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-gsm-modem "$ITUN" "Thank you for requesting. We have delivered the request to your inbox. Your number $ITUN has bee logged."
+      elif [[ "$USE_SENDSMSVIA" == "2" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-clickatell "$ITUN" "Thank you for requesting. We have delivered the request to your inbox. Your number $ITUN has bee logged."
+      elif [[ "$USE_SENDSMSVIA" == "3" ]]; then
+	$USE_BINPATH/prod.sendsms.gk --use-api-textity "$ITUN" "Thank you for requesting. We have delivered the request to your inbox. Your number $ITUN has bee logged."
+      else
+        printf "";
+        fi
+}
+
+function onevent_requesterror(){
+        if [[ "$USE_SENDSMSVIA" == "1" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-gsm-modem "$ITUN" "$FAIL"
+      elif [[ "$USE_SENDSMSVIA" == "2" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-clickatell "$ITUN" "$FAIL"
+      elif [[ "$USE_SENDSMSVIA" == "3" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-textity "$ITUN" "$FAIL"
+      else
+        printf "";
+        fi
+}
+
+VAL1="fjpf"
+VAL2="send"
+printf "\033[1mOpenGKS: - GETSMS HELPER - `date`\033[0m\n\n";
+	if [[ "$VAL1" == "$KEY1" ]] && \
+	   [[ "$VAL2" == "$KEY2" ]] && \
+	   [[ -s "$MSGS" ]];then
+		printf "[*] Requested by $ITUN ...\n\n";
+		echo "$KEY1 $KEY2 $SNDR $RCPT $STMP"
+		BASEURL="http://arpa.ph/fjpf/sender/d906bdab8b7b92986bed98ff3bc6ee6318ac5fb5.php?"
+		curl "$BASEURL&custom=$KEY1&secret=$KEY2&to=$MSGS&mobile=$ITUN&tstamp=`time`"
+		$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+                                "INSERT INTO logstore (eventname, eventlog, originator) VALUES ('GKS_FJPF', 'Request. $KEY2', 'Ref. $ITUN');"
+		onevent_getrequest
+      else
+		printf "[*] No records(s) in the database.\n";
+		echo "$KEY1 $KEY2 $SNDR $RCPT $STMP"
+		$USE_MYSQL --user=$DEFINE_MYSQLU --password=$DEFINE_MYSQLP $DEFINE_MYSQLD -e \
+                                "INSERT INTO logstore (eventname, eventlog, originator) VALUES ('GKS_FJPF', 'Failure. $KEY2', 'Ref. $ITUN');"
+		onevent_requesterror
+	fi
+
+exit 0
+@

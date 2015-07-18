@@ -1,0 +1,72 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2013.08.22.16.22.04;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/bash
+# $Id$
+# $Source$
+# DESC: HELPER - HELPER.SMS.GET
+# AUTHOR: Eric Fajardo / eric@@arpa.ph
+
+# LOAD ENVIRONMENT VARIABLES
+source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+
+# PARAMETERS
+KEY1="$1"         # PRIMARY KEY
+KEY2="$2"         # SECONDARY KEY
+SNDR="$3"         # SENDER
+RCPT="$4"         # RECIPIENT
+STMP="$5"         # MSGSTAMP
+
+ITUN=`echo "$SNDR" | sed 's/^.*\(............\)$/\1/'`
+for i in $ITUN
+{
+        export STMOBILE="`lynx -dump \"$USE_CHKURL?&refid=$i&query=stmobile\" | sed '/./!d' | awk '{print$1}'`"
+        export STNAME="`lynx -dump \"$USE_CHKURL?&refid=$i&query=stname\" | sed '/./!d'`"
+       	export NAME="`lynx -dump \"$USE_MSGURL?&refid=$KEY2&query=name\" | sed '/./!d' | awk '{print$1}'`"
+       	export MESSAGE="`lynx -dump \"$USE_MSGURL?&refid=$KEY2&query=message\" | sed '/./!d'`"
+}
+
+function onevent_getrequest(){
+        if [[ "$USE_SENDSMSVIA" == "1" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-gsm-modem "$ITUN" "`echo $MESSAGE | sed 's/^[ \t]*//;s/[ \t]*$//'`"
+      elif [[ "$USE_SENDSMSVIA" == "2" ]]; then
+        $USE_BINPATH/prod.sendsms.gk --use-api-clickatell "$ITUN" "`echo $MESSAGE | sed 's/^[ \t]*//;s/[ \t]*$//'`"
+      elif [[ "$USE_SENDSMSVIA" == "3" ]]; then
+	$USE_BINPATH/prod.sendsms.gk --use-api-textity "$ITUN" "`echo $MESSAGE | sed 's/^[ \t]*//;s/[ \t]*$//'`"
+      else
+        printf "";
+        fi
+}
+
+printf "\033[1mOpenGKS: - GETSMS HELPER - `date`\033[0m\n\n";
+	if [[ "$STMOBILE" == "$ITUN" ]];then
+		printf "[*] Requested by $ITUN ...\n\n";
+		echo "$KEY1 $KEY2 $SNDR $RCPT $STMP"
+		onevent_getrequest
+      else
+		printf "[*] No records(s) in the database.\n";
+		echo "$KEY1 $KEY2 $SNDR $RCPT $STMP"
+	fi
+
+exit 0
+@

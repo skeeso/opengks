@@ -1,0 +1,59 @@
+# $Id: prod.mailer.gk,v 1.1 2013/07/28 17:49:14 root Exp root $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.mailer.gk,v $
+# DESC: OPENGKS - PROD.MAILER.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+NARGS=1
+BARGS=65
+RCPT="$2"
+
+case $1 in
+
+	# SEND ENTRY NOTIFICATION
+        --send-entry-notice | --SEND-ENTRY-NOTICE)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+	        printf "\033[1mOpenGKS: - MAILER MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $DEFINE_SMTP_HOST\n";
+		if [[ "$DEFINE_SMTP_SERV" == "1" ]]; then
+			echo "$3" | /usr/bin/mail -s "$DEFINE_NAME: ENTRY NOTICE" $RCPT
+	      elif [[ "$DEFINE_SMTP_SERV" == "2" ]]; then
+		/usr/bin/curl -X POST "$DEFINE_SMTP_HOST" -d api_user="$DEFINE_SMTP_USER" -d api_key="$DEFINE_SMTP_PASS" -d to="$RCPT" \
+			-d subject="$DEFINE_NAME - ENTRY NOTICE" -d text="$3" -d from="$DEFINE_SMTP_RCPT" -d bcc="$DEFINE_SMTP_RCPT"
+	      else
+		printf "Invalid or NO SMTP Service defined.\n";
+		fi
+		printf "[*] Sent.\n";                 
+		printf "\n";
+        exit 0
+        ;;
+
+        # SEND EXIT NOTIFICATION
+        --send-exit-notice | --SEND-EXIT-NOTICE)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - MAILER MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $DEFINE_SMTP_HOST\n";
+                if [[ "$DEFINE_SMTP_SERV" == "1" ]]; then
+                        echo "$3" | /usr/bin/mail -s "$DEFINE_NAME: EXIT NOTICE" $RCPT
+              elif [[ "$DEFINE_SMTP_SERV" == "2" ]]; then
+		/usr/bin/curl -X POST "$DEFINE_SMTP_HOST" -d api_user="$DEFINE_SMTP_USER" -d api_key="$DEFINE_SMTP_PASS" -d to="$RCPT" \
+			-d subject="$DEFINE_NAME - EXIT NOTICE" -d text="$3" -d from="$DEFINE_SMTP_RCPT" -d bcc="$DEFINE_SMTP_RCPT"
+              else
+                printf "Invalid or NO SMTP Service defined.\n";
+                fi
+                printf "[*] Sent.\n";
+		printf "\n";
+        exit 0
+        ;;
+
+        *)
+        printf "\033[1mOpenGKS: - MAILER MODULE - `date` \033[0m\n\n";
+        printf "USAGE: $0 --send-entry-notice \"{EMAIL_ADDRESS}\" \"{MESSAGE}\"\n";
+	printf "SAMPLE: $0 --send-entry-notice \"noreply@arpa.ph\" \"Hello world.\"\n";
+        printf "WHERE:\n";
+        printf "\033[1m --send-entry-notice\033[0m		- Send an entry email notification.\n";
+	printf "\033[1m --send-exit-notice\033[0m		- Send an exit email notification.\n";
+	printf "\033[1m {EMAIL_ADDRESS}\033[0m		- Email address of the person to be notified.\n";
+	printf "\033[1m {MESSAGE}\033[0m			- Your message in quotes.\n\n";
+esac
+exit 0
+

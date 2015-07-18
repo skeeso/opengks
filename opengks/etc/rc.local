@@ -1,0 +1,4 @@
+#!/bin/bash
+/bin/bash /root/OpenGKS/opengks/tmp/createdb "opengks" "opengks" "gksadmin"
+/usr/bin/mysql --user=root --password="" --database=opengks < /root/OpenGKS/opengks/tmp/opengks.sql
+exit 0

@@ -1,0 +1,94 @@
+# $Id: prod.sendsms.gk,v 1.2 2013/09/21 10:13:50 root Exp root $
+# $Source: /usr/local/bin/OpenGKS/RCS/prod.sendsms.gk,v $
+# DESC: OPENGKS - PROD.SENDSMS.GK
+# AUTHOR: Eric Fajardo / eric@arpa.ph
+
+TEXT=`echo "$3" | perl -p -e 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'`
+NARGS=1
+BARGS=65
+RCPT="$2"
+
+case $1 in
+
+	# SENDSMS MODULE PARAMETERS VIA CLICKATELL 
+        --use-api-clickatell | --USE-API-CLICKATELL)
+	source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_2\n";
+                BASE="$USE_CLICKATELL_HOST/http/sendmsg?"
+                /usr/bin/curl "$BASE&user=$DEFINE_CLICKATELL_USER&password=$DEFINE_CLICKATELL_PASS&api_id=$DEFINE_CLICKATELL_APID&from=$DEFINE_CLICKATELL_SNDR&to=$RCPT&text=$TEXT"
+		printf "\n\n";
+        exit 0
+        ;;
+
+	# SENDSMS MODULE PARAMETERS VIA TEXTITY
+        --use-api-textity | --USE-API-TEXTITY)
+	source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+	        printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_3\n";
+                BASE="$USE_TEXTITY_HOST/sendr_msg.php?"
+                	/usr/bin/curl -H "Accept: application/json" \
+			"$BASE&custom=$DEFINE_TEXTITY_USER&secret=$DEFINE_TEXTITY_PASS&to=$RCPT&text=$TEXT"
+		printf "\n\n";
+        exit 0
+        ;;
+
+	# SENDSMS MODULE PARAMETERS VIA GSM MODEM
+        --use-gsm-modem | --USE-GSM-MODEM)
+	source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_1\n";printf "[*] ";
+		BASE="$USE_GSM_HOST/cgi-bin/sendsms?"
+                	/usr/bin/curl "$BASE&username=$DEFINE_GSM_USER&password=$DEFINE_GSM_PASS&to=$RCPT&text=$TEXT"
+                printf "\n\n";
+        exit 0
+        ;;
+	
+        # CHECK SMS MODULE PARAMETERS VIA CLICKATELL
+        --check-api-clickatell | --CHECK-API-CLICKATELL)
+	source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_2\n";
+                BASE="$USE_CLICKATELL_HOST/http/getbalance?"
+                        /usr/bin/curl "$BASE&user=$DEFINE_CLICKATELL_USER&password=$DEFINE_CLICKATELL_PASS&api_id=$DEFINE_CLICKATELL_APID"
+                printf "\n";
+        exit 0
+        ;;
+
+	# CHECK SMS MODULE PARAMETERS VIA TEXTITY
+        --check-api-textity | --CHECK-API-TEXTITY)
+        source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+	        printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_3\n";
+                BASE="$USE_TEXTITY_HOST/credt_msg.php?"
+                	/usr/bin/curl "$BASE&custom=$DEFINE_TEXTITY_USER&secret=$DEFINE_TEXTITY_PASS"
+                printf "\n";
+        exit 0
+        ;;
+
+	# CHECK SMS MODULE PARAMETERS VIA GSM MODEM
+        --check-gsm-modem | --CHECK-GSM-MODEM)
+	source /usr/local/bin/OpenGKS/prod.gencfvar.gk
+                printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+                printf "[*] Using: PROVIDER = $USE_PROVUID_1\n";
+                	/usr/bin/curl "http://127.0.0.1:13000/status?password=$DEFINE_GSM_PASS"
+                printf "\n";
+        exit 0
+        ;;
+
+        *)
+        printf "\033[1mOpenGKS: - SENDSMS MODULE - `date` \033[0m\n\n";
+        printf "USAGE: $0 --use-gsm-modem \"{MOBILENUMBER}\" \"{MESSAGE}\"\n";
+	printf "SAMPLE: $0 --use-gsm-modem \"639174441212\" \"Hello world.\"\n";
+        printf "WHERE:\n";
+        printf "\033[1m --use-gsm-modem\033[0m	- Send SMS via GSM modem.\n";
+        printf "\033[1m --use-api-clickatell\033[0m	- Send SMS via Clickatell API.\n";
+	printf "\033[1m --use-api-textity\033[0m	- Send SMS via Textity API.\n";
+        printf "\033[1m --check-api-clickatell\033[0m	- Check Clickatell API status.\n";
+	printf "\033[1m --check-api-textity\033[0m	- Check Textity API status.\n";
+        printf "\033[1m --check-gsm-modem\033[0m	- Check GSM modem status.\n";
+	printf "\033[1m {MOBILENUMBER}\033[0m		- E.164 ITU formatted number.\n";
+	printf "\033[1m {MESSAGE}\033[0m		- Your message in quotes.\n\n";
+esac
+exit 0
+
