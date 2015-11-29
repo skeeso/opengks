@@ -61,7 +61,7 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 # [S] SECURITY
 /bin/chmod 666 /etc/ssh/sshd_config
 /bin/echo "Banner /etc/banner" >> /etc/ssh/sshd_config
-/bin/echo "AllowUsers      aleckd" >> /etc/ssh/sshd_config
+/bin/echo "AllowUsers      opengks aleckd" >> /etc/ssh/sshd_config
 /bin/chmod 600 /etc/ssh/sshd_config
 
 # SSL CONFIGURATION
