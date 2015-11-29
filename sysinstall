@@ -7,11 +7,11 @@ VER="OpenGKS v1.1"
 export DEBIAN_FRONTEND=noninteractive
 
 # [C] CONFIGURATION
-/usr/sbin/useradd -md /home/opengks opengks -s /bin/bash
+#/usr/sbin/useradd -md /home/opengks opengks -s /bin/bash
 /usr/sbin/usermod -c "How are you today?" opengks
-/usr/sbin/usermod -aG nopasswdlogin opengks
-/usr/sbin/usermod -aG dialout opengks
-/usr/sbin/usermod -aG cdrom aleckd
+#/usr/sbin/usermod -aG nopasswdlogin opengks
+#/usr/sbin/usermod -aG dialout opengks
+#/usr/sbin/usermod -aG cdrom aleckd
 
 /bin/sed -i 's/#//' /etc/default/kannel
 /usr/sbin/usermod -aG dialout kannel
@@ -49,7 +49,7 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 /bin/tar -zxf $DIR/opengks/gks-theme.tgz -C /lib/plymouth/themes/
 /usr/sbin/update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/gks-theme/gks-theme.plymouth 100
 
-/bin/chown -R opengks.nopasswdlogin /home/opengks/
+#/bin/chown -R opengks.nopasswdlogin /home/opengks/
 /bin/ln -s /usr/local/bin/OpenGKS/prod.mailer.gk /usr/bin/mailer
 /bin/ln -s /usr/local/bin/OpenGKS/prod.timein.gk /usr/bin/timein
 /bin/ln -s /usr/local/bin/OpenGKS/prod.gencfvar.gk /usr/bin/genconfig
