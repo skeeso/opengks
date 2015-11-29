@@ -71,6 +71,7 @@ echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
 /etc/init.d/apache2 restart
 
 # SYSTEM REBOOT
+chown -R opengks:opengks /home/opengks
 /usr/sbin/update-grub2
 /usr/sbin/update-initramfs -u
 /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/
