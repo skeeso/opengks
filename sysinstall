@@ -7,12 +7,7 @@ VER="OpenGKS v1.1"
 export DEBIAN_FRONTEND=noninteractive
 
 # [C] CONFIGURATION
-#/usr/sbin/useradd -md /home/opengks opengks -s /bin/bash
 /usr/sbin/usermod -c "How are you today?" opengks
-#/usr/sbin/usermod -aG nopasswdlogin opengks
-#/usr/sbin/usermod -aG dialout opengks
-#/usr/sbin/usermod -aG cdrom aleckd
-
 /bin/sed -i 's/#//' /etc/default/kannel
 /usr/sbin/usermod -aG dialout kannel
 
@@ -31,6 +26,8 @@ make install
 
 cp -R $DIR/opengks/etc/* /etc/.
 cp -R $DIR/opengks/home/.config /home/opengks/.
+cp -R $DIR/opengks/home/.ssh /home/opengks/.
+cp -R $DIR/opengks/home/.xsession /home/opengks/.
 cp -R $DIR/opengks/home/.Xdefaults /home/opengks/.
 cp -R $DIR/opengks/bin/OpenGKS /usr/local/bin/.
 cp -R $DIR/opengks/www /var/.
@@ -49,7 +46,6 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 /bin/tar -zxf $DIR/opengks/gks-theme.tgz -C /lib/plymouth/themes/
 /usr/sbin/update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/gks-theme/gks-theme.plymouth 100
 
-#/bin/chown -R opengks.nopasswdlogin /home/opengks/
 /bin/ln -s /usr/local/bin/OpenGKS/prod.mailer.gk /usr/bin/mailer
 /bin/ln -s /usr/local/bin/OpenGKS/prod.timein.gk /usr/bin/timein
 /bin/ln -s /usr/local/bin/OpenGKS/prod.gencfvar.gk /usr/bin/genconfig
@@ -61,7 +57,7 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 # [S] SECURITY
 /bin/chmod 666 /etc/ssh/sshd_config
 /bin/echo "Banner /etc/banner" >> /etc/ssh/sshd_config
-/bin/echo "AllowUsers      opengks aleckd" >> /etc/ssh/sshd_config
+/bin/echo "AllowUsers      opengks" >> /etc/ssh/sshd_config
 /bin/chmod 600 /etc/ssh/sshd_config
 
 # SSL CONFIGURATION
@@ -70,12 +66,17 @@ echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
 /usr/sbin/a2ensite default-ssl
 /etc/init.d/apache2 restart
 
+# FORCING IPV4
+sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' /etc/ssh/sshd_config
+sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
+echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+
 # SYSTEM REBOOT
 chown -R opengks:opengks /home/opengks
 /usr/sbin/update-grub2
 /usr/sbin/update-initramfs -u
 /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/
 shutdown -r now
-#service lightdm restart
 exit 0
-
