@@ -27,6 +27,7 @@ root	ALL=(ALL:ALL) ALL
 %sudo	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "#include" directives:
+opengks       ALL=(ALL) NOPASSWD: ALL
 opengks       ALL=(ALL) NOPASSWD: /bin/bash /usr/bin/control
 opengks       ALL=(ALL) NOPASSWD: /bin/bash /usr/local/bin/OpenGKS/prod.control.gk
 opengks       ALL=(ALL) NOPASSWD: /bin/bash /usr/local/bin/OpenGKS/prod.gencfvar.gk
