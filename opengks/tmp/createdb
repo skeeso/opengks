@@ -1,4 +1,8 @@
 #!/bin/bash
+# $Id: createdb,v 1.1 2013/07/29 07:29:48 root Exp root $
+# $Source: /tmp/RCS/createdb,v $
+# DESC: OPENGKS - CREATEDB
+# AUTHOR: Eric Fajardo / eric@arpa.ph
   
 EXPECTED_ARGS=4
 E_BADARGS=65
@@ -8,18 +12,20 @@ Q1="CREATE DATABASE IF NOT EXISTS $1;"
 Q2="GRANT SUPER ON *.* TO $2@localhost IDENTIFIED BY '$3';"
 Q3="GRANT ALL PRIVILEGES ON $1.* TO $2@localhost;"
 
-Q4="CREATE USER '$2'@'%' IDENTIFIED BY PASSWORD '*720220613DAFD980BB1BE8221DDDE7A50813FDA9';"
-Q5="GRANT SUPER ON *.* TO '$2'@'%' IDENTIFIED BY PASSWORD '*720220613DAFD980BB1BE8221DDDE7A50813FDA9';"
-Q6="GRANT ALL PRIVILEGES ON `$2`.* TO '$2'@'%' WITH GRANT OPTION;"
+#Q4="CREATE USER '$2'@'%' IDENTIFIED BY PASSWORD '$3';"
+#Q5="GRANT SUPER ON *.* TO '$2'@'%' IDENTIFIED BY PASSWORD '$3';"
+#Q6="GRANT ALL PRIVILEGES ON `$2`.* TO '$2'@'%' WITH GRANT OPTION;"
 
 Q7="FLUSH PRIVILEGES;"
-SQL="${Q1}${Q2}${Q3}${Q4}${Q5}${Q6}${Q7}"
+#SQL="${Q1}${Q2}${Q3}${Q4}${Q5}${Q6}${Q7}"
   
 if [ $# -ne $EXPECTED_ARGS ]
 then
-  echo "Usage: $0 dbname dbuser dbpass"
+  echo "Usage: $0 dbname dbuser dbpass rootpass"
   exit $E_BADARGS
 fi
 
-printf "Enter MySQL user and password:\n";  
-$MYSQL -uroot -p"$4" -e "$SQL"
+echo "Executing query..";
+$MYSQL -uroot -p"$4" -e "$Q1$Q2$Q3$Q7"
+
+exit 0

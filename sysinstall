@@ -1,8 +1,13 @@
 #!/bin/bash
-# THE OPENGKS DEVELOPER INSTALLER. NOT FOR PRODUCTION RELEASE.
-# THIS SHOULD INSTALL AND LOAD THE NECESSARY PRE-REQUISITES AND CONFIG FILES
+# $Id: sysinstall,v 1.1 2013/07/29 07:29:48 root Exp root $
+# $Source: /root/opengks/RCS/sysinstall,v $
+# DESC: OpenGKS - SYSINSTALL
+# AUTHOR: Eric Fajardo / eric@arpa.ph
 
-DIR=/root/OpenGKS
+# THE OPENGKS DEVELOPER INSTALLER.
+# THIS SHOULD INSTALL AND LOAD THE NECESSARY PRE-REQUISITES AND CONFIG FILES.
+
+DIR=/root/opengks
 VER="OpenGKS v1.1"
 export DEBIAN_FRONTEND=noninteractive
 
@@ -23,6 +28,13 @@ cd $DIR/opengks/gtkdialog-0.8.3
 ./configure
 make
 make install
+cd$DIR/opengks/shc-3.8.9
+make
+make install
+
+# [B] BUILD
+cd $DIR/opengks/bin/OpenGKS
+for i in `ls -1 . | sed 's#.*/##'`; { shc -f $i; mv $i.x $i; rm -f $i.x.c; }
 
 cp -R $DIR/opengks/etc/* /etc/.
 cp -R $DIR/opengks/home/.config /home/opengks/.
@@ -54,6 +66,19 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 /bin/ln -s /usr/local/bin/OpenGKS/prod.sendsms.gk /usr/bin/sendsms
 /bin/ln -s /etc/OpenGKS/bin/showreadme /usr/bin/showreadme
 
+cd /tmp
+if [[ "`uname -i`" == "x86_64" ]]; then
+	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+	dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+else
+	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb"
+	dpkg -i /tmp/google-chrome-stable_current_i386.deb
+fi
+
+mkdir -p /home/opengks/TOOLBOX
+ln -s /usr/bin/google-chrome-stable /home/opengks/TOOLBOX/Chrome
+ln -s /usr/bin/xterm /home/opengks/TOOLBOX/Xterm 
+
 # [S] SECURITY
 /bin/chmod 666 /etc/ssh/sshd_config
 /bin/echo "Banner /etc/banner" >> /etc/ssh/sshd_config
@@ -63,6 +88,7 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 # SSL CONFIGURATION
 echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
 /usr/sbin/a2enmod ssl
+/usr/sbin/a2enmod rewrite
 /usr/sbin/a2ensite default-ssl
 /etc/init.d/apache2 restart
 
@@ -74,7 +100,9 @@ echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
 
 # SYSTEM REBOOT
+sudo a2enmod rewrite
 chown -R opengks:opengks /home/opengks
+chmod +x $DIR/opengks/bin/OpenGKS
 /usr/sbin/update-grub2
 /usr/sbin/update-initramfs -u
 /usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas/

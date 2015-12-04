@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "OpenGKS View Mode"
+AuthUserFile /etc/OpenGKS/.htpasswd
+Require valid-user

@@ -1,0 +1,47 @@
+/**************************
+General Class
+**************************/
+a{color:#090;}
+a:hover{color: #ff0000}
+
+
+/**************************
+Header Class
+**************************/
+a.logo { background-image:url(../images/header_logo_g.gif)}
+
+
+/**************************
+Admin Box Style
+**************************/
+.admin_box {border-color:#389102; background-image:url(../images/table_header_g.gif)}
+.admin_box_header h3 {color: #fff}
+
+
+/**************************
+table class
+**************************/
+.common_table thead tr th{background-color:#F2FFE6;}
+
+
+/**************************
+search class
+**************************/
+.searchbox {background-image: url(../images/search_g.gif)}
+
+/**************************
+page no. class
+**************************/
+.page_area .current {background:#64AE00; color:#fff}
+
+
+/**************************
+admin_tab
+**************************/
+ul.admin_tab li {background-color:#1E4F00;}
+
+
+/**************************
+thick box
+**************************/
+.thick_box_header {background-color:#DEFFC8}

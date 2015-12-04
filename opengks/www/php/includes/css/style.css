@@ -1,0 +1,207 @@
+@charset "utf-8";
+
+/**************************
+General Class
+**************************/
+img {border: 0;}
+a img {border: none:w; color: #ffffff; background:: transparent;}
+
+html, body, table, select, input, textarea{font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color:#373737;}
+html {min-width:990px}
+a{text-decoration: none;color: #21759b;}
+a:hover{text-decoration: none; color: #ff0000}
+
+body{margin:0; background-color:#313131}
+.wrapper {padding-top:30px; padding-bottom:30px}
+
+.clear{clear:both; margin:0; padding:0}
+
+
+/**************************
+Header Class
+**************************/
+.header {background:url(../images/header.gif) 0 0 repeat-x; height:40px; position: relative; z-index: 100}
+a.logo {float:left; background: 0 1px no-repeat; height:39px; width:294px; display:block}
+.header .top , .wrapper {margin:0 20px}
+.admin_top_right {float:right; line-height:20px; margin:10px}
+.admin_top_left {float:left; line-height:20px; margin:10px}
+
+
+/**************************
+style menu class 
+**************************/
+.style_menu {padding:20px 0 0 30px; list-style:none; color:#bbb;}
+.style_menu span {padding:0 10px 0 10px}
+
+
+/**************************
+Admin Box Style
+**************************/
+.admin_box {border:1px solid; -moz-border-radius:8px; -khtml-border-radius:8px; -webkit-border-radius:8px; border-radius: 8px;  background: 0 0 repeat-x #fff; }
+.admin_box_header {height:32px;}
+.admin_box_header h3 {font-size:1.5em; margin:0; padding:6px 0 0 20px; float:left}
+
+.content_box{}
+.content {padding:20px 20px 14px 20px}
+
+
+/**************************
+table class
+**************************/
+.common_table{width:100%; background-color:#fff; width: 100%; border-collapse:separate;border-spacing: 0px; *border-collapse: expression('separate', cellSpacing = '0px'); border:1px solid #cbcbcb; border-bottom:0}
+.common_table tr th , .common_table tr td{border-bottom:1px solid #cbcbcb; vertical-align:top; line-height:1.4em}
+.common_table tr.no_border td{border-bottom:1px solid #ffffff}
+.common_table tr td {background:url(../images/td_bg.gif) bottom repeat-x}
+.common_table tr:hover td {background:#f5f5f5}
+
+/** table column width control start **/
+.num_col {width:30px}
+.code_col {width:120px}
+.data_col {width:10%}
+.short_col {width:85px}
+.data_long_col {width:220px}
+.num2_col {width:110px}
+.image_col {width:100px}
+.act_col {width:70px}
+/** table column width control end **/
+
+/** table tool setting start **/
+.table_top_left_tool {float:left}
+.table_top_right_tool {float:right}
+.table_bottom_left_tool {float:left; padding-top:15px}
+.table_bottom_right_tool {float:right; padding-top:15px}
+/** table tool setting end **/
+
+.common_table thead tr th{background:#ececec; text-align:left; padding-left:4px; height:30px; vertical-align:middle; *padding-top:2px; font-weight:bold}
+.common_table tr td {padding:6px 4px 6px 4px}
+
+.table_left_tool {float:left; margin-top:15px;}
+.table_right_tool {float:right; padding-bottom:0px; *padding-bottom:10px}
+.col_filter {float:left; margin-right:10px}
+.table_left_tool span{!important vertical-align:middle}
+
+a.sort_asc {background:url(../images/sort.gif) no-repeat 100% 2px; padding-right:13px;}
+a:hover.sort_asc {background:url(../images/sort.gif) no-repeat 100% -17px}
+a.sort_dec {background:url(../images/sort.gif) no-repeat 100% -55px; padding-right:13px;}
+a:hover.sort_dec {background:url(../images/sort.gif) no-repeat 100% -36px}
+
+
+.form_table {width:100%}
+.form_table th {width:20%}
+.form_table th , .form_table td {padding-bottom:25px; vertical-align:top; line-height:1.5em; text-align:left}
+
+tr td.btn_area {text-align:center; width:100%; height:50px; background:#ccc}
+tr td.btn_area:hover {background:#ccc}
+td.btn_area input {margin: 10px auto}
+
+
+/**************************
+input class
+**************************/
+select {padding:2px}
+select option {padding-top: 2px; line-height:1.6em}
+
+
+
+/**************************
+page no. class
+**************************/
+.page_area{display:block}
+.page_area a , .page_area span
+{padding:5px; margin-left:6px; border:1px solid #d9d9d9;-moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius: 3px;}
+.page_area .current {background:#f3f3f3}
+.page_area span.dot {border:0; margin:0; padding:10px 0 0 0}
+
+
+/**************************
+admin_tab
+**************************/
+ul.admin_tab {margin: 0 15px 0 15px; padding:0; list-style:none}
+ul.admin_tab li {line-height:25px; border:2px solid #ccc; border-bottom:0; float:left; margin:5px 0 0 7px; cursor:pointer ;-moz-border-radius-topright:6px; border-top-right-radius:6px;-moz-border-radius-topleft:6px; border-top-left-radius:6px;}
+ul.admin_tab li:hover {background-color:#ffffff}
+ul.admin_tab li.current {background-color:#ffffff; font-weight:bold; padding: 0 10px 0 10px}
+ul.admin_tab li a {display:block ; color:#ffffff; padding: 0 10px 0 10px}
+ul.admin_tab li a:hover {color:#ff0000}
+ul.admin_tab li {background-color:#333;}
+
+
+/**************************
+search class
+**************************/
+.searchbox {
+	background: no-repeat;
+	width:209px;
+	height:17px;
+	display:block;
+	float:left;
+	padding:2px 0 2px 2px;
+	border:1px solid #cbcbcb;
+	margin-bottom:10px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;}
+.searchbox .textfield  {background:none; border:0px; width:185px; float:left; margin-right:2px; padding-left:2px;}
+.searchbox .button {background:none; border:0px; width:18px; height:18px; cursor:pointer; float:left; margin-top:1px;}
+
+
+/**************************
+manage btn
+**************************/
+a.insert_btn {background:url(../images/manage.gif) 0 -22px no-repeat; height:20px; width:20px; display:block; float:left; margin-left:5px; margin-right:5px}
+a.insert_btn:hover {background-position: 0 2px}
+a.del_btn {background:url(../images/manage.gif) 0 -70px no-repeat; height:20px; width:20px; display:block; float:left; margin-left:5px}
+a.del_btn:hover {background-position: 0 -46px}
+a.eidt_btn {background:url(../images/manage.gif) 0 -21px no-repeat; height:20px; width:20px; display:block; float:left; margin-right:15px}
+a.eidt_btn:hover {background-position: 0 0}
+
+
+/**************************
+system message
+**************************/
+.notice_box {padding-bottom:10px; margin-top:-5px}
+.common_table td .notice_box{width:150px; padding:5px 0 0 0; margin-top:0}
+.notice_box div{padding:5px 10px 5px 36px; line-height:1.5em; -moz-border-radius: 6px; -webkit-border-radius:6px;}
+.alert {background:url(../images/error.gif) 10px 6px no-repeat #fffbcc; color:#666452;}
+.success {background:url(../images/success.gif) 10px 6px no-repeat #e5ffce; color:#6a6668;}
+
+.system_msg_grey {color:#999}
+
+
+/**************************
+input class
+**************************/
+input.pic_name {width:70%}
+input.form_short {width:60px}
+input.edit_data {width:90%;}
+
+/**************************
+submit btn class
+**************************/
+.action_btn {text-align:center;}
+
+input.action_btn {margin:5px 5px 15px 5px; color:#ffffff; width:65px; cursor:pointer; border:2px solid;  -moz-border-radius:6px; -khtml-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; padding:3px 0}
+
+input.small {padding: 0; margin:0 0 0 10px; border-width:1px; border-width:3px\9;}
+
+input.submit {background:#323232; border-color:#2f2f2f}
+input:hover.submit {background:#eb4c07; border-color:#eb4c07}
+
+input.cancel {background:#aaa; border-color:#afafaf}
+input:hover.cancel {background:#888; border-color:#999}
+
+/**************************
+loading gif
+**************************/
+.uploading {background:url(../images/uploading.gif) 0 0 no-repeat; height:22px; margin-top:10px; padding-left:135px; color:#FF3C1A}
+
+
+/**************************
+thick box
+**************************/
+.thick_box_wrapper .action_btn{margin-bottom:0; margin-top:20px}
+
+.thick_box_header {height:32px; background-color:#e1e1e1; padding-top:8px; margin-bottom:15px}
+th.upload_option {text-align:right; font-size:1.8em; color:#aaa; font-style:italic}
+
+.loading_msg {height:40px}
