@@ -13,8 +13,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # [C] CONFIGURATION
 /usr/sbin/usermod -c "How are you today?" opengks
-/bin/sed -i 's/#//' /etc/default/kannel
-/usr/sbin/usermod -aG dialout kannel
+#/bin/sed -i 's/#//' /etc/default/kannel
+#/usr/sbin/usermod -aG dialout kannel
 
 /etc/init.d/apparmor stop
 /etc/init.d/apparmor teardown
@@ -28,9 +28,9 @@ cd $DIR/opengks/gtkdialog-0.8.3
 ./configure
 make
 make install
-cd$DIR/opengks/shc-3.8.9
-make
-make install
+#cd$DIR/opengks/shc-3.8.9
+#make
+#make install
 
 # [B] BUILD
 cd $DIR/opengks/bin/OpenGKS
@@ -55,6 +55,7 @@ cp -R $DIR/opengks/tmp/10_unity_greeter_background.gschema.override /usr/share/g
 cp -R $DIR/opengks/tmp/ubuntu-wallpapers.xml /usr/share/gnome-background-properties/.
 cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-properties/.
 
+mkdir -p /lib/plymouth/themes/
 /bin/tar -zxf $DIR/opengks/gks-theme.tgz -C /lib/plymouth/themes/
 /usr/sbin/update-alternatives --install /lib/plymouth/themes/default.plymouth default.plymouth /lib/plymouth/themes/gks-theme/gks-theme.plymouth 100
 
@@ -66,17 +67,17 @@ cp -R $DIR/opengks/tmp/precise-wallpapers.xml /usr/share/gnome-background-proper
 /bin/ln -s /usr/local/bin/OpenGKS/prod.sendsms.gk /usr/bin/sendsms
 /bin/ln -s /etc/OpenGKS/bin/showreadme /usr/bin/showreadme
 
-cd /tmp
-if [[ "`uname -i`" == "x86_64" ]]; then
-	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-	dpkg -i /tmp/google-chrome-stable_current_amd64.deb
-else
-	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb"
-	dpkg -i /tmp/google-chrome-stable_current_i386.deb
-fi
+#cd /tmp
+#if [[ "`uname -i`" == "x86_64" ]]; then
+#	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+#	dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+#else
+#	wget "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb"
+#	dpkg -i /tmp/google-chrome-stable_current_i386.deb
+#fi
 
-mkdir -p /home/opengks/TOOLBOX
-ln -s /usr/bin/google-chrome-stable /home/opengks/TOOLBOX/Chrome
+#mkdir -p /home/opengks/TOOLBOX
+#ln -s /usr/bin/google-chrome-stable /home/opengks/TOOLBOX/Chrome
 ln -s /usr/bin/xterm /home/opengks/TOOLBOX/Xterm 
 
 # [S] SECURITY
@@ -86,14 +87,14 @@ ln -s /usr/bin/xterm /home/opengks/TOOLBOX/Xterm
 /bin/chmod 600 /etc/ssh/sshd_config
 
 # SSL CONFIGURATION
-echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
-/usr/sbin/a2enmod ssl
-/usr/sbin/a2enmod rewrite
-/usr/sbin/a2ensite default-ssl
-/etc/init.d/apache2 restart
+#echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
+#/usr/sbin/a2enmod ssl
+#/usr/sbin/a2enmod rewrite
+#/usr/sbin/a2ensite default-ssl
+#/etc/init.d/apache2 restart
 
 # FORCING IPV4
-sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' /etc/ssh/sshd_config
+#sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g' /etc/ssh/sshd_config
 sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -101,7 +102,7 @@ echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
 
 # SYSTEM REBOOT
 sudo a2enmod rewrite
-chown -R opengks:opengks /home/opengks
+#chown -R opengks:opengks /home/opengks
 chmod +x $DIR/opengks/bin/OpenGKS
 /usr/sbin/update-grub2
 /usr/sbin/update-initramfs -u
